@@ -1,2 +1,7 @@
 const mongoose = require("mongoose")
-mongoose.connect("mongodb://127.0.0.1/task-manager-postman3",{useNewUrlParser:true,useCreateIndex:true})
+mongoose.connect(process.env.CONNECTION_URL,{useNewUrlParser:true,useCreateIndex:true})
+
+
+//console.log(process.env.CONNECTION_URL);
+
+//mongoose.connect(process.env.CONNECTION_URL, { useNewUrlParser: true, useCreateIndex: true })

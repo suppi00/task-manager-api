@@ -3,14 +3,19 @@ const User = require("../models/user")
 const auth = async (req,res,next)=>{
     try{
         const token = req.header('Authorization').replace("Bearer ", "")
-        const decode = jwt.verify(token, "iamsupriyaagrawal")
-        const user = await User.find({_id:decode._id,"tokens.token":token})
-        if(user){
-            req.user = user
-            next()
+        console.log(token)
+        const decode = jwt.verify(token, process.env.JWT_SECRET)
+        console.log(decode._id)
+        const user = await User.findOne({_id:decode._id,'tokens.token':token})
+        console.log(user)
+        if(!user){
+            throw new Error()
         }
+        req.token = token
+        req.user = user
+        next()
     }catch(error){
-        res.status(503).send({error:"not authenticated"})
+        res.status(401).send({error:"not authenticated"})
     }
 }
 module.exports = auth
